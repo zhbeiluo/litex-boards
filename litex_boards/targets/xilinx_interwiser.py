@@ -53,6 +53,19 @@ class _CRG(Module):
             # Ignore sys_clk to pll.clkin path created by SoC's rst.
             platform.add_false_path_constraints(self.cd_sys.clk, pll.clkin)
 
+
+class Blink(Module):
+    def __init__(self, blink_freq, sys_clk_freq, led):
+        counter = Signal(32)
+
+        self.sync += [
+            counter.eq(counter+1),
+            If(counter == C(int((sys_clk_freq/blink_freq)/2-1), 32),
+                counter.eq(0),
+                led.eq(~led) 
+            )
+        ]
+
 # BaseSoC ------------------------------------------------------------------------------------------
 
 class BaseSoC(SoCCore):
@@ -97,6 +110,9 @@ class BaseSoC(SoCCore):
 
         # CRG --------------------------------------------------------------------------------------
         self.submodules.crg = _CRG(platform, sys_clk_freq, use_ps7_clk)
+
+        # Led tester Module -------------------------------------------------------------
+        self.submodules += Blink(2, 100e6, platform.request("user_led", 0))
     
     def add_configs_xml(self, preset=None):
         if preset == None:
