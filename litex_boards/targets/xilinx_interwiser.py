@@ -17,7 +17,7 @@
 # first build will take a while because it includes a cross-toolchain.
 
 import argparse
-import xml.dom.minidom
+from xml.dom import minidom
 
 from migen import *
 
@@ -71,7 +71,7 @@ class BaseSoC(SoCCore):
 
         # ZynqMP Integration -----------------------------------------------------------------------
         if kwargs.get("cpu_type", None) == "zynqmp":
-            self.add_configs_xml(kwargs["preset"])
+            self.add_configs_xml("interwiser.xml")
 
             # Connect Zynq AXI master to the SoC
             wb_gp0 = wishbone.Interface()
@@ -103,11 +103,11 @@ class BaseSoC(SoCCore):
             return
         if preset.split(".")[-1] == "xml":
             print(f"Read configs from {preset}")
-            cfgs = _read_from_xml(preset)
+            cfgs = self._read_from_xml(preset)
             self.cpu.config.update(cfgs)
     
     def _read_from_xml(self, preset):
-        dom = minidom.parset(preset)
+        dom = minidom.parse(preset)
         cfgs = {}
         root = dom.documentElement
         params = root.getElementsByTagName('user_parameter')
@@ -184,12 +184,12 @@ def main():
     parser.add_argument("--build",        action="store_true", help="Build bitstream.")
     parser.add_argument("--load",         action="store_true", help="Load bitstream.")
     parser.add_argument("--sys-clk-freq", default=100e6,       help="System clock frequency.")
+    parser.add_argument("--preset", default="interwiser.xml", help="preset file")
     builder_args(parser)
     soc_core_args(parser)
     vivado_build_args(parser)
     parser.set_defaults(cpu_type="zynqmp")
     parser.set_defaults(no_uart=True)
-    parser.set_defaults(preset="interwiser.xml")
     args = parser.parse_args()
 
     soc = BaseSoC(
