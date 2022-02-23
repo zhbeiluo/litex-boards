@@ -63,8 +63,11 @@ class Blink(Module):
             If(counter == C(int((sys_clk_freq/blink_freq)/2-1), 32),
                 counter.eq(0),
                 led.eq(~led) 
+
             )
         ]
+
+    
 
 # BaseSoC ------------------------------------------------------------------------------------------
 
@@ -112,7 +115,15 @@ class BaseSoC(SoCCore):
         self.submodules.crg = _CRG(platform, sys_clk_freq, use_ps7_clk)
 
         # Led tester Module -------------------------------------------------------------
-        self.submodules += Blink(2, 100e6, platform.request("user_led", 0))
+        led2 = platform.request("user_led", 2)
+        led3 = platform.request("user_led", 3)
+        led4 = platform.request("user_led", 4)
+        self.submodules += Blink(2, 100e6, led2)
+
+        self.comb += [
+           led3.eq(1),
+           led4.eq(1),
+        ]
     
     def add_configs_xml(self, preset=None):
         if preset == None:

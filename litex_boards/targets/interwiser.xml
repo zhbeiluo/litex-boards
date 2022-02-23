@@ -52,6 +52,7 @@
 <user_parameter name="CONFIG.PSU__DDRC__T_RP " value="16"/>
 <user_parameter name="CONFIG.PSU__DDR__INTERFACE__FREQMHZ " value="533.500"/>
 <user_parameter name="CONFIG.PSU__DISPLAYPORT__PERIPHERAL__ENABLE " value="1"/>
+<user_parameter name="CONFIG.PSU__PSS_REF_CLK__FREQMHZ " value="33.333333"/>
 <user_parameter name="CONFIG.PSU__DLL__ISUSED " value="1"/>
 <user_parameter name="CONFIG.PSU__DPAUX__PERIPHERAL__IO " value="MIO 27 .. 30"/>
 <user_parameter name="CONFIG.PSU__DP__LANE_SEL " value="Single Lower"/>
@@ -89,10 +90,10 @@
 <user_parameter name="CONFIG.PSU__SATA__REF_CLK_SEL " value="Ref Clk1"/>
 <user_parameter name="CONFIG.PSU__SD0__PERIPHERAL__ENABLE " value="0"/>
 <user_parameter name="CONFIG.PSU__SD1__DATA_TRANSFER_MODE " value="4Bit"/>
-<user_parameter name="CONFIG.PSU__SD1__GRP_CD__ENABLE " value="1"/>
+<user_parameter name="CONFIG.PSU__SD1__GRP_CD__ENABLE " value="0"/>
 <user_parameter name="CONFIG.PSU__SD1__GRP_CD__IO " value="MIO 45"/>
 <user_parameter name="CONFIG.PSU__SD1__GRP_POW__ENABLE " value="0"/>
-<user_parameter name="CONFIG.PSU__SD1__GRP_WP__ENABLE " value="1"/>
+<user_parameter name="CONFIG.PSU__SD1__GRP_WP__ENABLE " value="0"/>
 <user_parameter name="CONFIG.PSU__SD1__PERIPHERAL__ENABLE " value="1"/>
 <user_parameter name="CONFIG.PSU__SD1__PERIPHERAL__IO " value="MIO 46 .. 51"/>
 <user_parameter name="CONFIG.PSU__SD1__SLOT_TYPE " value="SD 2.0"/>

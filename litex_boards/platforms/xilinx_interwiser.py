@@ -36,7 +36,7 @@ _io = [
 
     # HDMI
     # Clk
-    ("clk100",   0, Pins("F9"),  IOStandard("LVCMOS18")),
+    ("clk100",   0, Pins("F9"),  IOStandard("LVCMOS33")),
 
 ]
 
