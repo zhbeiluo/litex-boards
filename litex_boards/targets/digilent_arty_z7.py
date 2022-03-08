@@ -113,6 +113,7 @@ def main():
     soc_core_args(parser)
     vivado_build_args(parser)
     parser.set_defaults(cpu_type="zynq7000")
+    parser.set_defaults(no_uart=True)
     args = parser.parse_args()
 
     soc = BaseSoC(
@@ -127,7 +128,7 @@ def main():
 
     if args.load:
         prog = soc.platform.create_programmer()
-        prog.load_bitstream(os.path.join(builder.gateware_dir, soc.build_name + ".bit"))
+        prog.load_bitstream(os.path.join(builder.gateware_dir, soc.build_name + ".bit"), device=1)
 
 if __name__ == "__main__":
     main()
