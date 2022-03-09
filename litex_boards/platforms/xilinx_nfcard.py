@@ -26,6 +26,10 @@ _io = [
         Subsignal("n", Pins("AV21"), IOStandard("DIFF_SSTL12")),
     ),
     ("cpu_reset", 0, Pins("AB27"), IOStandard("LVCMOS33")),
+    # I2C
+    ("i2c", 0, 
+        Subsignal("scl", Pins("AD32"), IOStandard("LVCMOS33")), 
+        Subsignal("sda", Pins("AE29"), IOStandard("LVCMOS33"))),
 
     # ddram
     ("ddram", 0,
