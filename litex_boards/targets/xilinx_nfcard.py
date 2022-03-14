@@ -17,6 +17,7 @@
 # first build will take a while because it includes a cross-toolchain.
 
 import argparse
+import os
 from xml.dom import minidom
 
 from migen import *
@@ -25,6 +26,7 @@ from litex_boards.platforms import xilinx_nfcard
 from litex.build.xilinx.vivado import vivado_build_args, vivado_build_argdict
 from litex.build.tools import write_to_file
 
+from litex.soc.cores.led import LedChaser
 from litex.soc.interconnect import axi
 from litex.soc.interconnect import wishbone
 
@@ -67,7 +69,6 @@ class Blink(Module):
             )
         ]
 
-    
 
 # BaseSoC ------------------------------------------------------------------------------------------
 
@@ -115,15 +116,12 @@ class BaseSoC(SoCCore):
         self.submodules.crg = _CRG(platform, sys_clk_freq, use_ps7_clk)
 
         # Led tester Module -------------------------------------------------------------
-        led2 = platform.request("user_led", 0)
-        led3 = platform.request("user_led", 1)
-        led4 = platform.request("user_led", 2)
-        self.submodules += Blink(2, 100e6, led2)
-
-        self.comb += [
-           led3.eq(1),
-           led4.eq(1),
-        ]
+        self.submodules.leds = LedChaser(
+            pads    = self.platform.request_all("user_led"),
+            sys_clk_freq = sys_clk_freq
+        )
+        self.add_csr("leds")
+        
     
     def add_configs_xml(self, preset=None):
         if preset == None:
@@ -205,6 +203,10 @@ class BaseSoC(SoCCore):
 
 
 # Build --------------------------------------------------------------------------------------------
+def get_builder_kwargs(args, target_name):
+    builder_kwargs = builder_argdict(args)
+    builder_kwargs["output_dir"] = os.path.join('build', target_name)
+    return builder_kwargs
 
 def main():
     parser = argparse.ArgumentParser(description="LiteX SoC on NFCard")
@@ -212,18 +214,24 @@ def main():
     parser.add_argument("--load",         action="store_true", help="Load bitstream.")
     parser.add_argument("--sys-clk-freq", default=100e6,       help="System clock frequency.")
     parser.add_argument("--preset", default="nfcard.xml", help="preset file")
+    parser.set_defaults(cpu_type="zynqmp")
+    parser.set_defaults(no_uart=True)
     builder_args(parser)
     soc_core_args(parser)
     vivado_build_args(parser)
-    parser.set_defaults(cpu_type="zynqmp")
-    parser.set_defaults(no_uart=True)
+
     args = parser.parse_args()
 
     soc = BaseSoC(
         sys_clk_freq=int(float(args.sys_clk_freq)),
         **soc_core_argdict(args)
     )
-    builder = Builder(soc, **builder_argdict(args))
+
+    target_name = 'nfcard'
+    builder_kwargs = get_builder_kwargs(args, target_name)
+    builder = Builder(soc, **builder_kwargs)
+    builder.csr_csv = os.path.join(builder.output_dir, 'csr.csv')
+
     if args.cpu_type == "zynqmp":
         soc.builder = builder
         builder.add_software_package('libxil')
