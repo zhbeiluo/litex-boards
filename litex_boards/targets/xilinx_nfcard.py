@@ -214,11 +214,11 @@ def main():
     parser.add_argument("--load",         action="store_true", help="Load bitstream.")
     parser.add_argument("--sys-clk-freq", default=100e6,       help="System clock frequency.")
     parser.add_argument("--preset", default="nfcard.xml", help="preset file")
-    parser.set_defaults(cpu_type="zynqmp")
-    parser.set_defaults(no_uart=True)
     builder_args(parser)
     soc_core_args(parser)
     vivado_build_args(parser)
+    parser.set_defaults(cpu_type="zynqmp")
+    parser.set_defaults(no_uart=True)
 
     args = parser.parse_args()
 
@@ -227,7 +227,7 @@ def main():
         **soc_core_argdict(args)
     )
 
-    target_name = 'nfcard'
+    target_name = 'xilinx_nfcard'
     builder_kwargs = get_builder_kwargs(args, target_name)
     builder = Builder(soc, **builder_kwargs)
     builder.csr_csv = os.path.join(builder.output_dir, 'csr.csv')

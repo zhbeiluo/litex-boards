@@ -42,7 +42,7 @@ _io = [
         Subsignal("ras_n",   Pins("AR22"), IOStandard("SSTL12_DCI")), # A16
         Subsignal("cas_n",   Pins("AV22"), IOStandard("SSTL12_DCI")), # A15
         Subsignal("we_n",    Pins("BA22"), IOStandard("SSTL12_DCI")), # A14
-        Subsignal("cs_n",    Pins("AL20"), IOStandard("SSTL12_DCI")), # also AL17 AN17 AN16 for larger SODIMMs
+        Subsignal("cs_n",    Pins("AL20 AV23"), IOStandard("SSTL12_DCI")), # also AL17 AN17 AN16 for larger SODIMMs
         Subsignal("act_n",   Pins("AU20"), IOStandard("SSTL12_DCI")),
         #Subsignal("alert_n", Pins("AB15"), IOStandard("SSTL12_DCI")),
         #Subsignal("par",     Pins("AD16"), IOStandard("SSTL12_DCI")),
@@ -70,8 +70,8 @@ _io = [
             Misc("EQUALIZATION=EQ_LEVEL2")),
         Subsignal("clk_p",   Pins("AU21"), IOStandard("DIFF_SSTL12_DCI")), # also AJ16 for larger SODIMMs
         Subsignal("clk_n",   Pins("AV21"), IOStandard("DIFF_SSTL12_DCI")), # also AJ15 for larger SODIMMs
-        Subsignal("cke",     Pins("BB18"), IOStandard("SSTL12_DCI")), # also AM15 for larger SODIMMs
-        Subsignal("odt",     Pins("AP22"), IOStandard("SSTL12_DCI")), # also AM16 for larger SODIMMs
+        Subsignal("cke",     Pins("BB18 AU19"), IOStandard("SSTL12_DCI")), # also AM15 for larger SODIMMs
+        Subsignal("odt",     Pins("AP22 AW22"), IOStandard("SSTL12_DCI")), # also AM16 for larger SODIMMs
         Subsignal("reset_n", Pins("AR20"), IOStandard("LVCMOS12")),
         Misc("SLEW=FAST"),
     ),
