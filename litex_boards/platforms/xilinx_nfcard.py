@@ -68,8 +68,8 @@ _io = [
             IOStandard("DIFF_POD12_DCI"),
             Misc("PRE_EMPHASIS=RDRV_240"),
             Misc("EQUALIZATION=EQ_LEVEL2")),
-        Subsignal("clk_p",   Pins("AU21"), IOStandard("DIFF_SSTL12_DCI")), # also AJ16 for larger SODIMMs
-        Subsignal("clk_n",   Pins("AV21"), IOStandard("DIFF_SSTL12_DCI")), # also AJ15 for larger SODIMMs
+        Subsignal("clk_p",   Pins("BA23"), IOStandard("DIFF_SSTL12_DCI")), # also AJ16 for larger SODIMMs
+        Subsignal("clk_n",   Pins("BB23"), IOStandard("DIFF_SSTL12_DCI")), # also AJ15 for larger SODIMMs
         Subsignal("cke",     Pins("BB18 AU19"), IOStandard("SSTL12_DCI")), # also AM15 for larger SODIMMs
         Subsignal("odt",     Pins("AP22 AW22"), IOStandard("SSTL12_DCI")), # also AM16 for larger SODIMMs
         Subsignal("reset_n", Pins("AR20"), IOStandard("LVCMOS12")),
@@ -81,7 +81,7 @@ _io = [
 
 class Platform(XilinxPlatform):
     default_clk_name   = "clk125"
-    default_clk_period = 1e9/125e6
+    default_clk_period = 1e9/100e6
 
     def __init__(self, toolchain="vivado"):
         XilinxPlatform.__init__(self, "xczu19eg-ffvc1760-2-e", _io, toolchain=toolchain)
@@ -94,4 +94,4 @@ class Platform(XilinxPlatform):
 
     def do_finalize(self, fragment, *args, **kwargs):
         XilinxPlatform.do_finalize(self, fragment, *args, **kwargs)
-        self.add_period_constraint(self.lookup_request("clk125", loose=True), 1e9/125e6)
+        self.add_period_constraint(self.lookup_request("clk125", loose=True), 1e9/100e6)
