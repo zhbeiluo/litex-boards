@@ -15,10 +15,9 @@ from litex.build.xilinx import XilinxPlatform, VivadoProgrammer
 _io = [
     # leds
     ("user_led",  0, Pins("H9"), IOStandard("LVCMOS33")),
-    ("user_led",  1, Pins("J9"),  IOStandard("LVCMOS33")),
+    ("user_led",  1, Pins("J9"), IOStandard("LVCMOS33")),
     ("user_led",  2, Pins("H8"), IOStandard("LVCMOS33")),
     ("user_led",  3, Pins("J8"), IOStandard("LVCMOS33")),
-        
     # HDMI
     # Clk
     ("clk125",   0, 

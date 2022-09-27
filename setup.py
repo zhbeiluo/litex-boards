@@ -5,7 +5,7 @@ from setuptools import find_packages
 
 
 setup(
-    name="litex-boards",
+    name="litex_boards",
     description="LiteX supported boards",
     author="Florent Kermarrec",
     author_email="florent@enjoy-digital.fr",
